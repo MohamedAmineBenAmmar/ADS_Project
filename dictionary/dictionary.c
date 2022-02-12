@@ -199,13 +199,14 @@ void dicoInsererMot(char mot[], TArbre *pa)
 /* Check if a word exists in the tree */
 int find(char word[], int index, TArbre a)
 {
-    if (word[index] == '\0')
+    // printf("\nthe letter to check: %c\n", word[index]);
+    if (word[index] == '\0' && arbreRacineLettre(a) == '\0')
     {
         return 1;
     }
     else
     {
-        if (arbreEstVide(a) == 1)
+        if (arbreEstVide(a) == 1 || index == strlen(word))
         {
             return 0;
         }

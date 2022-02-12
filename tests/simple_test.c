@@ -52,4 +52,14 @@ int main(int argc, char **argv)
 
     printf("The string: %s ---> existence value: %d\n", input, dicoNbOcc(input, dico));
 
+
+    printf("\nTest access to the data in the memory adress (before free) : \n");
+    printf("%c\n", arbreRacineLettre(dico));
+    
+    printf("\nTrying to delete all the tree entries :D \n");
+    arbreSuppr(dico);
+    printf("Tree state (empty): %d\n", arbreEstVide(dico));
+
+    printf("\nTest access to the data in the memory adress (after free) : \n");
+    printf("%c\n", arbreRacineLettre(dico));
 }

@@ -61,11 +61,11 @@ void arbreSuppr(TArbre a){
             enqueue(&tree_queue, tmp_tree_node_ptr->left);
         }
         
-        // free(tmp_tree_node_ptr);
-        printf("letter is : %c\n", tmp_tree_node_ptr->data.letter);
-        if (tmp_tree_node_ptr->data.letter == '\0'){
-            printf("pst \n");
-        }
+        free(tmp_tree_node_ptr);
+        // printf("letter is : %c\n", tmp_tree_node_ptr->data.letter);
+        // if (tmp_tree_node_ptr->data.letter == '\0'){
+        //     printf("pst \n");
+        // }
     }
-    
+
 }

@@ -55,6 +55,6 @@ int piocherMot(char *motPioche, char* nom_fichier)
 
 int nombreAleatoire(int nombreMax)
 {
-    srand(time(NULL));
+    // srand(time(NULL));
     return (rand() % nombreMax);
 }

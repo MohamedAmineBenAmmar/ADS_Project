@@ -2,40 +2,48 @@
 #include "../tree/tree_functions.h"
 
 /* Display the tree */
-void display_tree(TArbre a, char word[], char from, char* pOperation)
+void display_tree(TArbre a, char word[], char from, char *pOperation)
 {
     if (a != NULL)
     {
         if (from == 'L')
-        {            
+        {
             if (a->data.letter == '\0')
             {
-                // Display the word               
+                // Display the word
                 printf("word: %s / Occurence: %d\n", word, a->data.occurence);
-            } else {
+            }
+            else
+            {
                 strncat(word, &(a->data.letter), 1);
             }
-        
         }
         else
         {
-            if (*pOperation == 'N'){
-                word[strlen(word) -1] = a->data.letter;
-            } else {
+            if (*pOperation == 'N')
+            {
+                word[strlen(word) - 1] = a->data.letter;
+            }
+            else
+            {
                 strncat(word, &(a->data.letter), 1);
-            }  
+            }
         }
 
         *pOperation = 'N';
         display_tree(a->left, word, 'L', pOperation);
 
-        if (a->data.letter != '\0'){
-            word[strlen(word) -1] = '\0';
+        if (a->data.letter != '\0')
+        {
+            word[strlen(word) - 1] = '\0';
         }
-        
+
         display_tree(a->right, word, 'R', pOperation);
-    } else {
-        if (from == 'L') {
+    }
+    else
+    {
+        if (from == 'L')
+        {
             *pOperation = 'C';
         }
     }
@@ -46,12 +54,13 @@ void dicoAfficher(TArbre a)
     char word[256];
     char operation = 'N';
     // Init the word variable
-    word[0] = '\0';    
+    word[0] = '\0';
     display_tree(a, word, 'L', &operation);
 }
 
 /* -------------------------- */
 
+/* Insert new word in the tree */
 void dicoInsererMot(char mot[], TArbre *pa)
 {
     TArbre ptr, parent, newNode;
@@ -185,17 +194,75 @@ void dicoInsererMot(char mot[], TArbre *pa)
     }
 }
 
+/* -------------------------- */
+
+/* Check if a word exists in the tree */
+int find(char word[], int index, TArbre a)
+{
+    if (word[index] == '\0')
+    {
+        return 1;
+    }
+    else
+    {
+        if (arbreEstVide(a) == 1)
+        {
+            return 0;
+        }
+        else
+        {
+            if (word[index] == arbreRacineLettre(a))
+            {
+                return(find(word, ++index, arbreFilsGauche(a)));
+            }
+            else
+            {
+                return(find(word, index, arbreFilsDroit(a)));
+            }
+        }
+    }
+}
+
 int dicoNbOcc(char mot[], TArbre a)
 {
-    printf("test dicoNbOcc\n");
+    int index = 0;
+    int word_existence_flag = find(mot, index, a);
+
+    return word_existence_flag;
+}
+
+/* -------------------------*/
+
+/* Calculating the number of words within the dictionary  */
+void calculate_words(TArbre a, char option, int* p_result){
+    if (arbreEstVide(a) == 0){
+        calculate_words(arbreFilsGauche(a), option, p_result);
+
+        // Check if the current node is a leaf
+        if (arbreRacineLettre(a) == '\0'){
+            if (option == 'D'){
+                (*p_result)++;
+            } else {
+                (*p_result)+= arbreRacineNbOcc(a);
+            }
+        }
+
+        calculate_words(arbreFilsDroit(a), option, p_result);
+    }
 }
 
 int dicoNbMotsDifferents(TArbre a)
 {
-    printf("test dicoNbMotsDifferents");
+    int result = 0;
+    calculate_words(a, 'D', &result);
+
+    return result;
 }
 
 int dicoNbMotsTotal(TArbre a)
 {
-    printf("test dicoNbMotsTotal");
+    int result = 0;
+    calculate_words(a, 'S', &result);
+
+    return result;
 }

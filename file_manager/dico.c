@@ -12,9 +12,8 @@ pour le jeu du Pendu
 #include <string.h>
 #include "dico.h"
 
-
 // int piocherMot(char *motPioche)
-int piocherMot(char *motPioche, char* nom_fichier)
+int piocherMot(char *motPioche, char *nom_fichier)
 {
     FILE *dico = NULL; // Le pointeur de fichier qui va contenir notre fichier
     int nombreMots = 0, numMotChoisi = 0, i = 0;

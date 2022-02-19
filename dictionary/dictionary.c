@@ -200,18 +200,18 @@ void dicoInsererMot(char mot[], TArbre *pa)
 /* -------------------------- */
 
 /* Check if a word exists in the tree */
-int find(char word[], int index, TArbre a)
+TArbre find(char word[], int index, TArbre a)
 {
     // printf("\nthe letter to check: %c\n", word[index]);
     if (word[index] == '\0' && arbreRacineLettre(a) == '\0')
     {
-        return 1;
+        return a;
     }
     else
     {
         if (arbreEstVide(a) == 1 || index == strlen(word))
         {
-            return 0;
+            return NULL;
         }
         else
         {
@@ -230,11 +230,16 @@ int find(char word[], int index, TArbre a)
 int dicoNbOcc(char mot[], TArbre a)
 {
     int index = 0;
-    int word_existence_flag = find(mot, index, a);
+    TArbre word_memory_address = find(mot, index, a);
 
-    
+    if (word_memory_address == NULL){
+        // The word don't exist in our tree
+        return -1;
+    } else {
+        // The word exist
+        return (arbreRacineNbOcc(word_memory_address));
+    }
 
-    return word_existence_flag;
 }
 
 /* -------------------------*/

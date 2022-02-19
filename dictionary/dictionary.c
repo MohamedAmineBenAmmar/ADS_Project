@@ -8,10 +8,12 @@ void display_tree(TArbre a, char word[], char from, char *pOperation)
     {
         if (from == 'L')
         {
-            if (a->data.letter == '\0')
+            // if (a->data.letter == '\0')
+            if (arbreRacineLettre(a) == '\0')
             {
                 // Display the word
-                printf("word: %s / Occurence: %d\n", word, a->data.occurence);
+                // printf("word: %s / Occurence: %d\n", word, a->data.occurence);
+                printf("word: %s / Occurence: %d\n", word, arbreRacineNbOcc(a));
             }
             else
             {
@@ -22,7 +24,7 @@ void display_tree(TArbre a, char word[], char from, char *pOperation)
         {
             if (*pOperation == 'N')
             {
-                word[strlen(word) - 1] = a->data.letter;
+                word[strlen(word) - 1] = arbreRacineLettre(a);
             }
             else
             {
@@ -31,14 +33,15 @@ void display_tree(TArbre a, char word[], char from, char *pOperation)
         }
 
         *pOperation = 'N';
-        display_tree(a->left, word, 'L', pOperation);
+        // display_tree(a->left, word, 'L', pOperation);
+        display_tree(arbreFilsGauche(a), word, 'L', pOperation);
 
-        if (a->data.letter != '\0')
+        if (arbreRacineLettre(a) != '\0')
         {
             word[strlen(word) - 1] = '\0';
         }
 
-        display_tree(a->right, word, 'R', pOperation);
+        display_tree(arbreFilsDroit(a), word, 'R', pOperation);
     }
     else
     {
@@ -214,11 +217,11 @@ int find(char word[], int index, TArbre a)
         {
             if (word[index] == arbreRacineLettre(a))
             {
-                return(find(word, ++index, arbreFilsGauche(a)));
+                return (find(word, ++index, arbreFilsGauche(a)));
             }
             else
             {
-                return(find(word, index, arbreFilsDroit(a)));
+                return (find(word, index, arbreFilsDroit(a)));
             }
         }
     }
@@ -229,22 +232,30 @@ int dicoNbOcc(char mot[], TArbre a)
     int index = 0;
     int word_existence_flag = find(mot, index, a);
 
+    
+
     return word_existence_flag;
 }
 
 /* -------------------------*/
 
 /* Calculating the number of words within the dictionary  */
-void calculate_words(TArbre a, char option, int* p_result){
-    if (arbreEstVide(a) == 0){
+void calculate_words(TArbre a, char option, int *p_result)
+{
+    if (arbreEstVide(a) == 0)
+    {
         calculate_words(arbreFilsGauche(a), option, p_result);
 
         // Check if the current node is a leaf
-        if (arbreRacineLettre(a) == '\0'){
-            if (option == 'D'){
+        if (arbreRacineLettre(a) == '\0')
+        {
+            if (option == 'D')
+            {
                 (*p_result)++;
-            } else {
-                (*p_result)+= arbreRacineNbOcc(a);
+            }
+            else
+            {
+                (*p_result) += arbreRacineNbOcc(a);
             }
         }
 
@@ -267,3 +278,4 @@ int dicoNbMotsTotal(TArbre a)
 
     return result;
 }
+/* -------------------------*/
